@@ -60,20 +60,19 @@ var checkHtmlFile = function(htmlfile, checksfile) {
     return out;
 };
 
-var checkURL = function(url){
+var checkURL = function(url, checksfile){
 
-    rest.get(URL_DEFAULT).on('complete', function(result) {
-        if (result instanceof Error) {
-        sys.puts('Error: ' + result.message);
-        this.retry(5000); // try again after 5 sec
-        } else {
-        sys.puts(result);
-	$ = cheerio.load(result);    
-        //return cheerio.load(result);
-        }
-    });
-    //return cheerio.load(result);
-}
+
+    $ = cheerio.load(url);
+    var checks = loadChecks(checksfile).sort();
+    var out = {};
+    for(var ii in checks) {
+        var present = $(checks[ii]).length > 0;
+        out[checks[ii]] = present;
+    }
+    return out;
+};
+
 
 var clone = function(fn) {
     // Workaround for commander.js issue.
@@ -97,7 +96,7 @@ if(program.url){
 rest.get(program.url).on('complete', function(result){
     var checkJson = checkURL(result, program.checks);
     var outJson = JSON.stringify(checkJson, null, 4);
-    //console.log(checkJson);
+    console.log(checkJson);
 });
 }
 
