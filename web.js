@@ -8,7 +8,7 @@ var filename = "index.html";
 fs.stat(filename, function(error,stats){
     fs.open(filename, "r", function(error, fd){
 	var buffer = new Buffer(stats.size);
-	fs.readsync(fd, buffer, 0, buffer.length, null, function(error, bytesRead, buffer){
+	fs.readSync(fd, buffer, 0, buffer.length, null, function(error, bytesRead, buffer){
 	    var data = buffer.toString("utf8", 0, buffer.length);
 	    console.log(data);
 	    fs.close(fd);
