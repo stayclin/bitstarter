@@ -5,16 +5,11 @@ var fs = require('fs');
 var app = express.createServer(express.logger());
 
 var filename = "index.html";
-fs.stat(filename, function(error,stats){
-    fs.open(filename, "r", function(error, fd){
-	var buffer = new Buffer(stats.size);
-	fs.readFileSync(fd, buffer, 0, buffer.length, null, function(error, bytesRead, buffer){
-	    var data = buffer.toString("utf8", 0, buffer.length);
-	    console.log(data);
-	    fs.close(fd);
-	});
-    });
-});
+
+
+var data = fs.readFileSync(filename, "utf-8");
+
+
 
 
 var buf = new Buffer("Hello Stacy");
